@@ -8,12 +8,13 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 import Layout from "./Layout.jsx";
+import UserAuth from "./pages/UserAuth.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Layout />}>
-      <Route path="signin" element={<h1>This is Sign In Route</h1>} />
-      <Route path="signup" element={<h1>This is Sign Up Route</h1>} />
+      <Route path="signin" element={<UserAuth type="Sign-In" />} />
+      <Route path="signup" element={<UserAuth type="Sign Up" />} />
     </Route>
   )
 );
