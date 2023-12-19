@@ -1,14 +1,55 @@
-import React from "react";
+import React, { useRef } from "react";
 import InputBox from "../components/InputBox";
 import google from "../../public/google.png";
 import { Link } from "react-router-dom";
 import PageAnimation from "../components/PageAnimation";
+import { Toaster, toast } from "react-hot-toast";
 
 const UserAuth = ({ type }) => {
+  const authentication = useRef();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; // regex for email
+    let passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/; // regex for password
+
+    // Form Data
+    let form = new FormData(authentication.current);
+    let formData = {};
+    for (let [key, value] of form.entries()) {
+      formData[key] = value;
+    }
+
+    // Form Validations
+
+    let { fullname, email, password } = formData;
+
+    if (fullname) {
+      if (fullname.length < 3) {
+        return toast.error("Fullname must be at least 3 characters long");
+      }
+    }
+
+    if (!email.length) {
+      return toast.error("Enter Email Please");
+    }
+
+    if (!emailRegex.test(email)) {
+      return toast.error("Enter Valid Email");
+    }
+
+    if (!passwordRegex.test(password)) {
+      return toast.error(
+        "Password must be at least 6 characters long and contain at least one number, one lowercase and one uppercase letter"
+      );
+    }
+  };
   return (
     <PageAnimation keyValue={type}>
-      <section className="h-cover flex items-center justify-center">
-        <form className="w-[80%] max-w-[400px]">
+      <section className="h-cover flex items-center justify-center ">
+        <Toaster />
+        <form ref={authentication} className="w-[80%] max-w-[400px]">
           <h1 className="text-4xl font-gelasio capitalize text-center mb-24 ">
             {type == "Sign-In" ? "Welcome Back" : "Join Us Today"}
           </h1>
@@ -36,7 +77,11 @@ const UserAuth = ({ type }) => {
             icon="fi-rr-lock"
           />
 
-          <button className="btn-dark center mt-14" type="submit">
+          <button
+            className="btn-dark center mt-14"
+            type="submit"
+            onClick={handleSubmit}
+          >
             {type}
           </button>
 

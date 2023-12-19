@@ -13,8 +13,6 @@ app.use(express.json());
 let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; // regex for email
 let passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/; // regex for password
 
-
-
 // CONNEDCT TO MONGODB
 
 mongoose
@@ -26,8 +24,6 @@ mongoose
   .catch((err) => {
     console.log(err);
   });
-
-
 
 // FORMATED DATA TO SEND TO FRONTEND
 
@@ -41,10 +37,6 @@ const formatDataToSend = (user) => {
   };
 };
 
-
-
-
-
 // GENERATE USERNAME if the part before @ is already taken.
 
 const generateUsername = async (email) => {
@@ -57,12 +49,6 @@ const generateUsername = async (email) => {
   usernameExists ? (username += Math.floor(Math.random() * 1000)) : "";
   return username;
 };
-
-
-
-
-
-
 
 // SIGNUP ROUTE
 
@@ -111,7 +97,6 @@ app.post("/signup", (req, res) => {
   });
 });
 
-
 // SIGNIN ROUTE
 
 app.post("/signin", (req, res) => {
@@ -137,7 +122,7 @@ app.post("/signin", (req, res) => {
         }
       });
       console.log(user);
-    //   return res.json({ status: "Got User Docs" });
+      //   return res.json({ status: "Got User Docs" });
     })
     .catch((err) => {
       console.log(err);
