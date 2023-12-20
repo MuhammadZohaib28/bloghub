@@ -13,4 +13,4 @@ export const removeFromSession = (key) => {
 export const logOutUser = () => {
   sessionStorage.clear();
 };
-  
+    

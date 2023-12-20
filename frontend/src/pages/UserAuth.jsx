@@ -1,26 +1,35 @@
-import React from "react";
+import React, { useContext } from "react";
 import InputBox from "../components/InputBox";
 import google from "../../public/google.png";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import PageAnimation from "../components/PageAnimation";
 import { Toaster, toast } from "react-hot-toast";
 import axios from "axios";
+import { storeInSession } from "../common/session";
+import { UserContext } from "../Layout";
 
 const UserAuth = ({ type }) => {
   // const authentication = useRef();
+
+  const {
+    userAuth: { accessToken },
+    setUserAuth,
+  } = useContext(UserContext);
+
+  console.log(accessToken?.toString());
 
   const userAuthThroughServer = (serverRoute, formData) => {
     axios
       .post(import.meta.env.VITE_SERVER_DOMAIN + serverRoute, formData)
       .then(({ data }) => {
         storeInSession("user", JSON.stringify(data));
-        console.log(sessionStorage);
+
+        setUserAuth(data);
+        console.log(data)
       })
       .catch(({ response }) => {
         toast.error(response.data.error);
       });
-
-      
   };
 
   const handleSubmit = (e) => {
@@ -62,9 +71,11 @@ const UserAuth = ({ type }) => {
       );
     }
 
-    userAuthThroughServer(serverRoute, formData);
+     userAuthThroughServer(serverRoute, formData);
   };
-  return (
+  return accessToken ? (
+    <Navigate to="/" />
+  ) : (
     <PageAnimation keyValue={type}>
       <section className="h-cover flex items-center justify-center ">
         <Toaster />

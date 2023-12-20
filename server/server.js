@@ -58,12 +58,12 @@
     let { fullname, email, password } = req.body;
 
     // Validation of Data from Frontend
-    if (!fullname || fullname.length < 3) {
+    if (fullname.length < 3) {
       return res
         .status(403)
         .json({ error: "Fullname must be at least 3 characters long" });
     }
-    if (email.length || !email) {
+    if (!email.length) {
       return res.status(403).json({ error: "Enter Email Please" });
     }
 
