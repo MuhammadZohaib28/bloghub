@@ -23,5 +23,4 @@ function Layout() {
     </UserContext.Provider>
   );
 }
-
 export default Layout;

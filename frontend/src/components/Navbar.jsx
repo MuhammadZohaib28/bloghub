@@ -1,9 +1,28 @@
 import { Link } from "react-router-dom";
 import logo from "../images/logo.png";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { UserContext } from "../Layout";
+import UserNavigation from "./UserNavigation";
 
 const Navbar = () => {
   const [searchBoxVisibility, setSearchBoxVisibility] = useState(false);
+  const [userNavPanel, setUserNavPanel] = useState(false);
+
+  const {
+    userAuth,
+    userAuth: { accessToken, profile_img },
+  } = useContext(UserContext);
+
+  const handleUserNavPanel = () => {
+    setUserNavPanel((currentVal) => !currentVal);
+  };
+
+  const handleBlur = () => {
+    setTimeout(() => {
+      setUserNavPanel(false);
+    }, 200);
+  };
+
   return (
     <nav className="navbar">
       <Link to={"/"}>
@@ -38,13 +57,41 @@ const Navbar = () => {
           <p>Write</p>
         </Link>
 
-        <Link className="btn-dark py-2" to={"/signin"}>
-          Sign In
-        </Link>
+        {accessToken ? (
+          <>
+            <Link to={"/dashboard/notification"}>
+              <button className="w-12 h-12 rounded-full  bg-grey relative hover:bg-black/10">
+                <i className="fi fi-rr-bell text-2xl block mt-1"></i>
+              </button>
+            </Link>
 
-        <Link className="btn-light py-2 hidden md:block" to={"/signup"}>
-          Sign Up
-        </Link>
+            <div
+              className="relative"
+              onClick={handleUserNavPanel}
+              onBlur={handleBlur}
+            >
+              <button className="w-12 h-12 mt-1">
+                <img
+                  src={profile_img}
+                  alt="profile_image"
+                  className="w-full h-full object-contain rounded-full"
+                />
+              </button>
+
+              {userNavPanel ? <UserNavigation /> : ""}
+            </div>
+          </>
+        ) : (
+          <>
+            <Link className="btn-dark py-2" to={"/signin"}>
+              Sign In
+            </Link>
+
+            <Link className="btn-light py-2 hidden md:block" to={"/signup"}>
+              Sign Up
+            </Link>
+          </>
+        )}
       </div>
     </nav>
   );
