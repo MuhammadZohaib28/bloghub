@@ -4,18 +4,22 @@ import "./index.css";
 import {
   Route,
   RouterProvider,
+  Routes,
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom";
 import Layout from "./Layout.jsx";
 import UserAuth from "./pages/UserAuth.jsx";
-
+import Editor from "./pages/Editor.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<Layout />}>
-      <Route path="signin" element={<UserAuth type="Sign-In" />} />
-      <Route path="signup" element={<UserAuth type="Sign Up" />} />
+    <Route>
+      <Route path="/editor" element={<Editor />} />
+      <Route path="/" element={<Layout />}>
+        <Route path="signin" element={<UserAuth type="Sign-In" />} />
+        <Route path="signup" element={<UserAuth type="Sign Up" />} />
+      </Route>
     </Route>
   )
 );

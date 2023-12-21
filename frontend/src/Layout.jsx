@@ -6,21 +6,21 @@ import { lookInSession } from "./common/session";
 
 export const UserContext = createContext({});
 
-function Layout() {
-  const [userAuth, setUserRoute] = useState({});
+const Layout = () => {
+  const [userAuth, setUserAuth] = useState({});
 
   useEffect(() => {
     let userInSession = lookInSession("user");
 
     userInSession
-      ? setUserRoute(JSON.parse(userInSession))
-      : setUserRoute({ accessToken: null });
+      ? setUserAuth(JSON.parse(userInSession))
+      : setUserAuth({ accessToken: null }); 
   }, []);
   return (
-    <UserContext.Provider value={{ userAuth, setUserRoute }}>
+    <UserContext.Provider value={{ userAuth, setUserAuth }}>
       <Navbar />
       <Outlet />
     </UserContext.Provider>
   );
-}
+};
 export default Layout;
