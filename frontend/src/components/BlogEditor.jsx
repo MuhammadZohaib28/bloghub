@@ -1,8 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import logo from "../images/logo.png";
+import PageAnimation from "./PageAnimation";
+import defaultBanner from "../images/logo.png";
 
 const BlogEditor = () => {
+
+    const handleBannerUplaod = (e) => {
+        console.log(e)
+        let image = e.target.files[0]
+
+        console.log(image)
+    }
   return (
     <>
       <nav className="navbar">
@@ -19,7 +28,24 @@ const BlogEditor = () => {
         </div>
       </nav>
 
-      
+      <PageAnimation>
+        <section>
+          <div className="mx-auto  max-w-[900px] w-full ">
+            <div className="relative aspect-video bg-white border-4 border-grey hover:opacity-80">
+              <label htmlFor="uploadBanner">
+                <span className="flex items-center justify-center text-center h-[100%] text-grey hover:text-dark-grey font-bold text-3xl">Upload Banner</span>
+                <input
+                  id="uploadBanner"
+                  type="file"
+                  accept=".png, .jpeg, .jpg"
+                  hidden
+                  onChange={handleBannerUplaod}
+                />
+              </label>
+            </div>
+          </div>
+        </section>
+      </PageAnimation>
     </>
   );
 };
