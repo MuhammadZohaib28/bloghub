@@ -1,8 +1,2 @@
-POST http://localhost:3000/signin
-Content-Type: application/json
 
-{
-   
-    "email": "zohaibsoomro01@gmail.com",
-    "password": "qwertyQWERTY123"
-}
+GET http://localhost:3000/getUploadURL

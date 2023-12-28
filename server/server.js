@@ -6,6 +6,7 @@ import User from "./Schema/User.js";
 import jwt from "jsonwebtoken";
 import cors from "cors";
 import aws from "aws-sdk";
+import { nanoid } from "nanoid";
 
 dotenv.config();
 
@@ -29,11 +30,24 @@ mongoose
   });
 
 // SETTING S3 BUCKET
-  const s3 = new aws.S3({
-    region: 'ap-south-1',
-    accessKeyId: process.env.AWS_ACCESS_KEY,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  })
+const s3 = new aws.S3({
+  region: "ap-south-1",
+  accessKeyId: process.env.AWS_ACCESS_KEY,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+});
+
+const generateUploadURL = async () => {
+  const date = new Date();
+  const imageName = `${nanoid()}-${date.getTime()}.jpeg`;
+
+  return await s3.getSignedUrlPromise("putObject", {
+    Bucket: "bloghub_mern",
+    Key: imageName,
+    Expires: 1000,
+    ContentType: "image/jpeg",
+  });
+};
+
 // FORMATED DATA TO SEND TO FRONTEND
 
 const formatDataToSend = (user) => {
@@ -58,6 +72,16 @@ const generateUsername = async (email) => {
   usernameExists ? (username += Math.floor(Math.random() * 1000)) : "";
   return username;
 };
+
+// UPLOAD IMAGE URL ROUTE
+app.get("/getUploadURL", (req, res) => {
+  generateUploadURL()
+    .then((url) => res.status(200).json({ uploadURL: url }))
+    .catch((err) => {
+      console.log(err.message);
+      return res.status(500).json({ error: err.message });
+    });
+});
 
 // SIGNUP ROUTE
 
