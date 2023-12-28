@@ -6,7 +6,7 @@ import defaultBanner from "../images/logo.png";
 
 const BlogEditor = () => {
 
-    const handleBannerUplaod = (e) => {
+    const handleBannerUpload = (e) => {
         console.log(e)
         let image = e.target.files[0]
 
@@ -39,7 +39,7 @@ const BlogEditor = () => {
                   type="file"
                   accept=".png, .jpeg, .jpg"
                   hidden
-                  onChange={handleBannerUplaod}
+                  onChange={handleBannerUpload}
                 />
               </label>
             </div>

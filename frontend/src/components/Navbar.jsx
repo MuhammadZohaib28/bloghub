@@ -19,7 +19,7 @@ const Navbar = () => {
 
   const handleBlur = () => {
     setTimeout(() => {
-      setUserNavPanel(false);
+      setUserNavPanel(false); 
     }, 200);
   };
 
